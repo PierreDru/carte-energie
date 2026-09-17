@@ -1,0 +1,26 @@
+name: live-data
+on:
+  schedule:
+    - cron: "*/15 * * * *"     # toutes les 15 min (GitHub peut retarder de quelques minutes)
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install yfinance pyyaml
+      - run: python fetch_live.py
+        env:
+          EIA_API_KEY:  ${{ secrets.EIA_API_KEY }}
+          AGSI_API_KEY: ${{ secrets.AGSI_API_KEY }}
+          AIS_RELAY_URL: ${{ secrets.AIS_RELAY_URL }}   # facultatif : URL publique du relais AIS
+      - run: |
+          git config user.name  "live-bot"
+          git config user.email "live-bot@users.noreply.github.com"
+          git add live.json
+          git commit -m "live $(date -u +%FT%TZ)" || echo "rien à committer"
+          git push
