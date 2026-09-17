@@ -4,7 +4,7 @@ Sources gratuites : EIA (clé), AGSI+/GIE (clé), Yahoo Finance via yfinance (sa
 Les valeurs sans source gratuite (JKM, Oman, diesel, VLCC, stocks) viennent de manual.yml.
 Variables d'environnement : EIA_API_KEY, AGSI_API_KEY (facultatives : la ligne est sautée si absente).
 """
-import json, os, datetime as dt, urllib.request, urllib.parse
+import json, os, sys, traceback, datetime as dt, urllib.request, urllib.parse
 try:
     import yaml
 except ImportError:
@@ -68,8 +68,11 @@ if "ttf" in prices and "jkm" in prices:
 
 # 5) Saisies manuelles (JKM, Oman, diesel, VLCC…) : manual.yml, ne remplacent jamais une valeur automatique.
 if yaml and os.path.exists("manual.yml"):
-    for key, m in (yaml.safe_load(open("manual.yml")) or {}).items():
-        prices.setdefault(key, {"value": m.get("value"), "display": m.get("display"), "asof": m.get("asof"), "source": m.get("source", "saisie manuelle")})
+    try:
+        for key, m in (yaml.safe_load(open("manual.yml")) or {}).items():
+            prices.setdefault(key, {"value": m.get("value"), "display": m.get("display"), "asof": m.get("asof"), "source": m.get("source", "saisie manuelle")})
+    except Exception as e:
+        print("manual.yml illisible :", e)
 
 # 6) Fusion avec l'AIS si un relais tourne (facultatif)
 vessels, transits = [], None
@@ -91,4 +94,4 @@ for key in ("brent", "wti", "hh", "ttf", "eu_storage"):
         hist[key] = hist[key][-90*96:]
 
 json.dump({"updated": now, "prices": prices, "vessels": vessels, "hormuz_transits_24h": transits, "history": hist}, open(OUT, "w"), ensure_ascii=False)
-print("écrit", OUT, "·", len(prices), "prix")
+print("écrit", OUT, "·", len(prices), "prix :", ", ".join(sorted(prices)))

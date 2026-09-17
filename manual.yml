@@ -1,7 +1,7 @@
 # Valeurs sans source gratuite : à mettre à jour à la main (Platts, Argus, Clarksons, Kpler…).
-jkm:           {value: 24.89, display: "24,89 $/MMBtu", asof: "2026-09-14", source: "Platts (manuel)"}
-oman:          {value: 116,   display: "~116 $/b",       asof: "2026-09-14", source: "DME (manuel)"}
-diesel_eu:     {value: 200,   display: "~200 $/b",       asof: "2026-09-14", source: "Argus (manuel)"}
-vlcc:          {value: 501074,display: "501 074 $/j",    asof: "2026-09-14", source: "Clarksons (manuel)"}
-stocks_exchina:{value: -400,  display: "−400 Mb",        asof: "2026-09-14", source: "Kpler (manuel)"}
-spr:           {value: null,  display: "plus bas depuis 1982", asof: "2026-09-14", source: "EIA (manuel)"}
+jkm:            {value: 24.89,  display: "24,89 $/MMBtu",      asof: "2026-09-14", source: "Platts (manuel)"}
+oman:           {value: 116,    display: "~116 $/b",           asof: "2026-09-14", source: "DME (manuel)"}
+diesel_eu:      {value: 200,    display: "~200 $/b",           asof: "2026-09-14", source: "Argus (manuel)"}
+vlcc:           {value: 501074, display: "501 074 $/j",        asof: "2026-09-14", source: "Clarksons (manuel)"}
+stocks_exchina: {value: -400,   display: "−400 Mb",            asof: "2026-09-14", source: "Kpler (manuel)"}
+spr:            {value: null,   display: "plus bas depuis 1982", asof: "2026-09-14", source: "EIA (manuel)"}
